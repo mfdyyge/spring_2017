@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans>
+    <description>
+        <![CDATA[
+    创建日期:2013-11-06
+    描述:ptcore的主要spring配置文件,其他配置文件在此集中加载
+    作者:<a href="mailto:12719889@qq.com">YangHongJian</a>
+    版本:1.0
+    备注:
+    ]]>
+    </description>
+    <!-- 使用自定义继承类解决配置加载，支持各种方式获取属性值 -->
+    <bean id="propertyConfig"
+          class="com.base.core.domain.tools.BasePropertyConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <!-- 注意配置文件加载顺序 -->
+            <list>
+                <value>classpath:base-ptcore.properties</value>
+                <!-- liunx环境配置文件加载,解决模拟测试和正式环境配置文件加载 -->
+                <value>file:/opt/base/base-ptcore.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 该 BeanPostProcessor 将自动起作用，对标注 @Autowired 的 Bean 进行自动注入 -->
+    <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+
+    <!-- 密码加密算法配置为MD5 -->
+    <bean id="encrypt" class="com.base.core.domain.tools.impl.EncryptMD5SHAImpl">
+        <property name="encodeType">
+            <value>MD5</value>
+        </property>
+    </bean>
+</beans>

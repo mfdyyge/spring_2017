@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.base</groupId>
+    <artifactId>ptcore</artifactId>
+    <version>3.6.0</version>
+    <name>${artifactId}${version} 平台核心组件库</name>
+    <description>
+        <![CDATA[
+    创建日期:2014-8-16
+    描述:服务平台核心组件库
+    作者:<a href="mailto:12719889@qq.com">YangHongJian</a>
+    备注:
+    1.添加服务接口 ver2.3.0；
+    2.修改Bo中的daoBase为iDao ver2.3.1
+    3.2014-09-10 YangHongJian 添加动态列返回功能 ver2.4.x
+    4.2014.9.25 YangHongJian 添加xml、map、json相互转换功能 ver2.5.x
+    5.ResultHashMap 支持Druid连接池中的Clob字段 ver2.6.x
+    6.添加自动获取IP地址等监控信息 ver2.7.x
+    7.添加通道传输调用组件 ver2.8.x
+    8.2015.1.28 yanghongjian 添加二维码生成、解析组件 ver2.9.x
+    9.2015.5.4 yanghongjian 添加MySql核心组件、添加cos上传组件 ver3.0.x
+    10.2015.6.16 yanghongjian 添加在线编辑器需要的上传组件 ver3.1.x
+    11.2015.7.7 yanghongjian 添加支持SQL批量操作功能 ver3.2.x
+    12.2015.7.21 yanghongjian 添加字符串格式化方法 ver3.3.x
+    13.2015.8.3 yanghongjian 添加平台日志管理 ver3.4.x
+    14.2016.12.20 dingshuangbo 添加角色菜单权限管理ver3.5.x
+    15.2016.12.29 dingshuangbo 取消角色菜单权限管理ver3.6.x
+    ]]>
+    </description>
+    <!-- 主要技术框架的版本号 -->
+    <properties>
+    	<java.home>C:/Java/32/jdk1.6.0_43</java.home>
+        <java.encoding>UTF-8</java.encoding>
+        <project.build.sourceEncoding>${java.encoding}</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <org.springframework.version>3.2.11.RELEASE</org.springframework.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.7</version>
+            <!--<scope>test</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.2.3</version>
+        </dependency>
+
+        <!-- spring框架依赖包和dubbo的要求保持一致-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>spring</artifactId>-->
+        <!--<version>2.5.6</version>-->
+        <!--<scope>compile</scope>-->
+        <!--</dependency>-->
+        <!-- spring框架依赖包 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <!-- spring-context-support包中提供了Spring对cache,mail, schedule,ui的集成。 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${org.springframework.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.2</version>
+        </dependency>
+
+        <!-- oracle数据库驱动和连接池依赖 -->
+        <dependency>
+            <groupId>oracle</groupId>
+            <artifactId>oracle-jdbc</artifactId>
+            <version>10.1.0.2.0</version>
+        </dependency>
+
+        <!-- mysql数据库驱动和连接池依赖 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.35</version>
+        </dependency>
+
+        <!-- druid连接池的依赖 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ibatis</groupId>
+            <artifactId>ibatis-sqlmap</artifactId>
+            <version>2.3.4.726</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.16</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>commons-lang</groupId>-->
+        <!--<artifactId>commons-lang</artifactId>-->
+        <!--<version>2.6</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.1</version>
+        </dependency>
+
+        <!-- strtus2技术框架依赖包 -->
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-core</artifactId>
+            <version>2.3.16.3</version>
+        </dependency>
+        <dependency>
+	        <groupId>org.apache.struts</groupId>
+	    	<artifactId>struts2-convention-plugin</artifactId>
+	    	<version>2.3.16</version>
+		</dependency>
+        <!-- 让struts2支持@Autowired -->
+        <dependency>
+            <groupId>org.apache.struts</groupId>
+            <artifactId>struts2-spring-plugin</artifactId>
+            <version>2.3.16.1</version>
+        </dependency>
+        <!-- jstl组件使用有两个依赖  -->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- json/oql依赖包 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <!-- map转xml依赖 -->
+        <dependency>
+            <groupId>de.odysseus.staxon</groupId>
+            <artifactId>staxon</artifactId>
+            <version>1.3</version>
+        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>com.thoughtworks.xstream</groupId>-->
+        <!--<artifactId>xstream</artifactId>-->
+        <!--<version>1.4.7</version>-->
+        <!--</dependency>-->
+
+        <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5-20081211</version>
+        </dependency>
+
+        <!-- dubbo技术框架依赖包 -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>2.5.3</version>
+            <exclusions>
+                <!-- 排除本技术框架的第三方依赖 -->
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+            <version>0.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <version>3.4.6</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- 二维码生成、解析依赖包 2.2版本在JDK1.6应该是没问题的,2.3的话应该是对JDK1.7有依赖了 -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <!-- 上传组件 -->
+        <dependency>
+            <groupId>com.jfinal</groupId>
+            <artifactId>cos</artifactId>
+            <version>26Dec2008</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <!-- 暂时禁止该插件运行 -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <encoding>UTF-8</encoding>
+                    <compilerArguments>
+                        <verbose />
+                        <bootclasspath>${java.home}/jre/lib/rt.jar;${java.home}/jre/lib/jce.jar</bootclasspath>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
+            <!-- 部署源代码 -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 部署组件说明文档 -->
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <configuration>
+                    <charset>UTF-8</charset>
+                    <docencoding>UTF-8</docencoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!--<plugin>-->
+            <!--<groupId>org.apache.maven.plugins</groupId>-->
+            <!--<artifactId>maven-antrun-plugin</artifactId>-->
+            <!--<version>1.6</version>-->
+            <!--<executions>-->
+            <!--<execution>-->
+            <!--<id>compile</id>-->
+            <!--<phase>compile</phase>-->
+            <!--<configuration>-->
+            <!--<target>-->
+            <!--<echo message="********************copy 核心包${artifactId}-${version}.jar *************************"/>-->
+            <!--<copy file="${basedir}/target/${artifactId}-${version}.jar"-->
+            <!--tofile="${basedir}/../jkfw_lib/${artifactId}-${version}.jar"-->
+            <!--overwrite="true"/>-->
+            <!--</target>-->
+            <!--</configuration>-->
+            <!--<goals>-->
+            <!--<goal>run</goal>-->
+            <!--</goals>-->
+            <!--</execution>-->
+            <!--</executions>-->
+            <!--</plugin>-->
+        </plugins>
+    </build>
+
+    <!-- 配置远程发布到私服，mvn deploy -->
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>maven发布仓库 在setting.xml中在server节点添加账户</name>
+            <url>http://192.168.1.195:8081/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>maven快照仓库 在setting.xml中在server节点添加账户</name>
+            <url>http://192.168.1.195:8081/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>
