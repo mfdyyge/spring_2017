@@ -24,13 +24,17 @@
         <processorPath useClasspath="true" />
         <module name="archetype-base" />
         <module name="spring-core" />
+        <module name="springCore" />
+        <module name="springMvc" />
         <module name="springmvc" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="archetype-base" target="1.8" />
       <module name="spring-core" target="1.5" />
+      <module name="springCore" target="1.5" />
       <module name="springmvc" target="1.7" />
+      <module name="springMvc" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -1,14 +1,14 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="springmvc:war exploded">
+  <artifact type="exploded-war" name="springMvc:war exploded">
     <output-path>$PROJECT_DIR$/springmvc/target/springMvc</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="springmvc" />
+          <element id="module-output" name="springMvc" />
         </element>
         <element id="directory" name="lib">
           <element id="archive" name="springCore-2017.2.17.jar">
-            <element id="module-output" name="springcore" />
+            <element id="module-output" name="springCore" />
           </element>
           <element id="library" level="project" name="Maven: javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1" />
           <element id="library" level="project" name="Maven: taglibs:standard:1.1.2" />
@@ -46,7 +46,7 @@
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/springmvc/target/springMvc/META-INF/MANIFEST.MF" />
       </element>
-      <element id="javaee-facet-resources" facet="springmvc/web/Web" />
+      <element id="javaee-facet-resources" facet="springMvc/web/Web" />
     </root>
   </artifact>
 </component>
