@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+        "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="auth">
+    <!--
+    创建日期:2016-12-20
+    描述:用户表对应的sqlmap
+    作者:<a href="mailto:2449709309@qq.com">dingshuangbo</a>
+    版本:1.0
+    备注:
+    -->
+    <cacheModel id="cacheSYS_USER" type="LRU">
+        <flushInterval hours="24"/>
+        <flushOnExecute statement="auth.insertSYS_USER"/>
+        <flushOnExecute statement="auth.updateSYS_USER"/>
+        <flushOnExecute statement="auth.deleteSYS_USER"/>
+        <property name="cache-size" value="50"/>
+    </cacheModel>
+
+    <!-- 用户表通用查询条件 -->
+    <sql id="SYS_USER_WHERE">
+        <dynamic prepend="WHERE">
+            <isNotEmpty prepend="AND" property="ID">
+                T.ID = #ID#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="ACCOUNT">
+                T.ACCOUNT = #ACCOUNT#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="NAME">
+                T.NAME = #NAME#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="PASSWORD">
+                T.PASSWORD = #PASSWORD#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="TELPHONE">
+                T.TELPHONE = #TELPHONE#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="STATE">
+                T.STATE = #STATE#
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="CREATE_DATE">
+                T.CREATE_DATE = TO_DATE(#CREATE_DATE#,'yyyy-mm-dd')
+            </isNotEmpty>
+            <!--按时间段查询-->
+            <isNotEmpty prepend="AND" property="MIN_CREATE_DATE">
+                <![CDATA[
+                T.CREATE_DATE  >= TO_DATE(#MIN_CREATE_DATE#,'YYYY-MM-DD hh24:mi:ss')
+                ]]>
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="MAX_CREATE_DATE">
+                <![CDATA[
+                T.CREATE_DATE <= TO_DATE(#MAX_CREATE_DATE#,'YYYY-MM-DD hh24:mi:ss')
+                ]]>
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="UPDATE_DATE">
+                T.UPDATE_DATE = TO_DATE(#UPDATE_DATE#,'yyyy-mm-dd')
+            </isNotEmpty>
+            <!--按时间段查询-->
+            <isNotEmpty prepend="AND" property="MIN_UPDATE_DATE">
+                <![CDATA[
+                T.UPDATE_DATE  >= TO_DATE(#MIN_UPDATE_DATE#,'YYYY-MM-DD hh24:mi:ss')
+                ]]>
+            </isNotEmpty>
+            <isNotEmpty prepend="AND" property="MAX_UPDATE_DATE">
+                <![CDATA[
+                T.UPDATE_DATE <= TO_DATE(#MAX_UPDATE_DATE#,'YYYY-MM-DD hh24:mi:ss')
+                ]]>
+            </isNotEmpty>
+        </dynamic>
+    </sql>
+   
+   <!-- 用户表动态列查询 注意map中必须有COLS对应的list的列名 -->
+    <select id="selectDynamicSYS_USER" parameterClass="map" resultClass="resultHashMap"
+            remapResults="true">
+        <isNotEmpty property="CURPAGE">
+            <isNotEmpty property="PAGESIZE">
+                SELECT F.* FROM (
+            </isNotEmpty>
+        </isNotEmpty>
+        SELECT E.*,ROWNUM ROWNO FROM (
+            SELECT
+            <iterate property="COLS" open="" close="" conjunction=",">
+                $COLS[]$
+            </iterate>
+            /*统计总记录数,不受排序影响*/
+            ,DECODE(SIGN(FIRST_VALUE(ROWNUM)
+            OVER() - LAST_VALUE(ROWNUM) OVER()),
+            -1, LAST_VALUE(ROWNUM) OVER(),
+            0, FIRST_VALUE(ROWNUM) OVER(),
+            1, FIRST_VALUE(ROWNUM) OVER()) AS TOTAL
+            FROM SYS_USER T
+            <include refid="SYS_USER_WHERE"/>
+        )E
+        <isNotEmpty property="CURPAGE">
+            <isNotEmpty property="PAGESIZE">
+                <![CDATA[ WHERE rownum <=#CURPAGE# * #PAGESIZE# ) F WHERE F.ROWNO >=(#CURPAGE# - 1) * #PAGESIZE# + 1]]>
+            </isNotEmpty>
+        </isNotEmpty>
+    </select>
+   
+    <!-- 用户表通用查询 -->
+    <select id="selectSYS_USER" parameterClass="map" resultClass="resultHashMap"
+            cacheModel="cacheSYS_USER">
+        <isNotEmpty property="CURPAGE">
+            <isNotEmpty property="PAGESIZE">
+                SELECT F.* FROM (
+            </isNotEmpty>
+        </isNotEmpty>
+        SELECT E.*,ROWNUM ROWNO FROM (
+            SELECT T.ID,T.ACCOUNT,T.NAME,T.PASSWORD,T.TELPHONE,
+			T.STATE,
+            TO_CHAR(T.CREATE_DATE,'YYYY-MM-DD hh24:mi:ss') CREATE_DATE,
+            TO_CHAR(T.UPDATE_DATE,'YYYY-MM-DD hh24:mi:ss') UPDATE_DATE
+            /*统计总记录数,不受排序影响*/
+            ,FIRST_VALUE(ROWNUM) OVER(ORDER BY ROWNUM DESC) AS TOTAL
+            FROM SYS_USER T
+            <include refid="SYS_USER_WHERE"/>
+            <isNotEmpty property="SORTNAME">
+            	 ORDER BY  $SORTNAME$
+            	 <isNotEmpty property="SORTORDER">
+            	 	 $SORTORDER$
+            	 </isNotEmpty>
+            </isNotEmpty>
+        )E
+        <isNotEmpty property="CURPAGE">
+            <isNotEmpty property="PAGESIZE">
+                <![CDATA[ WHERE ROWNUM <=#CURPAGE# * #PAGESIZE# ) F WHERE F.ROWNO >=(#CURPAGE# - 1) * #PAGESIZE# + 1]]>
+            </isNotEmpty>
+        </isNotEmpty>
+    </select>
+   
+    <!-- 用户表通用查询记录数    -->
+    <select id="selectSYS_USERCount" parameterClass="map" resultClass="java.lang.Integer"
+            cacheModel="cacheSYS_USER">
+        SELECT COUNT(1) FROM SYS_USER T
+        <include refid="SYS_USER_WHERE"/>
+    </select>
+    
+    <!-- 用户表通用添加 -->
+    <insert id="insertSYS_USER" parameterClass="map">
+        INSERT INTO SYS_USER(ID,ACCOUNT,NAME,PASSWORD,TELPHONE,
+			STATE,CREATE_DATE,UPDATE_DATE)
+        VALUES(#ID:VARCHAR#,#ACCOUNT:VARCHAR#,#NAME:VARCHAR#,#PASSWORD:VARCHAR#,#TELPHONE:VARCHAR#,
+			#STATE:NUMERIC#,SYSDATE,SYSDATE)
+    </insert>
+
+    <!-- 用户表通用更新 -->
+    <update id="updateSYS_USER" parameterClass="map">
+        UPDATE SYS_USER
+        <dynamic prepend="set">
+            <isNotNull prepend="," property="ID"> ID = #ID:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="ACCOUNT"> ACCOUNT = #ACCOUNT:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="NAME"> NAME = #NAME:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="PASSWORD"> PASSWORD = #PASSWORD:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="TELPHONE"> TELPHONE = #TELPHONE:VARCHAR#</isNotNull>
+            <isNotNull prepend="," property="STATE"> STATE = #STATE:NUMERIC#</isNotNull>
+            <isNotEmpty prepend="," property="CREATE_DATE"> CREATE_DATE =TO_DATE(#CREATE_DATE#,'YYYY-MM-DD hh24:mi:ss')</isNotEmpty>
+            <isNotEmpty prepend="," property="UPDATE_DATE"> UPDATE_DATE =TO_DATE(#UPDATE_DATE#,'YYYY-MM-DD hh24:mi:ss')</isNotEmpty>
+        </dynamic>
+        WHERE ID = #ID#
+    </update>
+
+    <!-- 根据主键删除用户表数据 -->
+    <delete id="deleteSYS_USER" parameterClass="map">
+        DELETE FROM SYS_USER T WHERE T.ID = #ID#
+    </delete>
+</sqlMap>
