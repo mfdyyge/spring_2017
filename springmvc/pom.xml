@@ -1,0 +1,108 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+<name>springMvc-2017</name>
+<url>http://maven.apache.org</url>
+<modelVersion>4.0.0</modelVersion>
+
+<groupId>com.zl.spring.springmvc</groupId>
+<artifactId>springMvc</artifactId>
+<version>2017.2.17</version>
+
+<packaging>war</packaging>
+
+<!--********************************************************************************************-->
+<properties>
+            <java.home>E:\Java\jdk1.7_64X</java.home><!--JDK-HOME-->
+            <jetty.port>10087</jetty.port><!--jetty-->
+</properties>
+<!--<parent>
+    <groupId>com.zl.spring.springmvc</groupId>
+    <artifactId>springCore</artifactId>
+    <version>2017.2.17</version>
+</parent>-->
+<dependencies>
+            <dependency>
+                <groupId>com.zl.spring.springmvc</groupId>
+                <artifactId>springCore</artifactId>
+                <version>2017.2.17</version>
+            </dependency>
+</dependencies>
+
+
+<!--********************************************************************************************-->
+<distributionManagement>
+    <repository>
+        <id>releases</id>
+        <name>maven发布仓库 在setting.xml中在server节点添加账户</name>
+        <url>http://localhost:10086/nexus/content/repositories/releases/</url>
+    </repository>
+    <snapshotRepository>
+        <id>snapshots</id>
+        <name>maven快照仓库 在setting.xml中在server节点添加账户</name>
+        <url>http://localhost:10086/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+</distributionManagement>
+
+
+
+
+
+<!--插件-->
+<build>
+<finalName>${artifactId}</finalName>
+<plugins>
+
+<plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>maven-jetty-plugin</artifactId>
+        <version>6.1.26</version>
+        <configuration>
+            <connectors>
+                <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                    <port>${jetty.port}</port>
+                    <!-- 关于Web请求中出现413 FULL head问题的解决方法 -->
+                    <headerBufferSize>16384</headerBufferSize>
+                </connector>
+            </connectors>
+            <contextPath>/</contextPath>
+            <scanIntervalSeconds>10</scanIntervalSeconds>
+        </configuration>
+</plugin>
+
+
+<plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+            <encoding>UTF-8</encoding>
+            <source>1.7</source>
+            <target>1.7</target>
+            <encoding>UTF-8</encoding>
+            <compilerArguments>
+                <verbose />
+                <bootclasspath>${java.home}\jre\lib\rt.jar;${java.home}\jre\lib\jce.jar</bootclasspath>
+            </compilerArguments>
+        </configuration>
+</plugin>
+
+<!-- 部署源代码 -->
+<plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.2.1</version>
+        <configuration>
+            <attach>true</attach>
+        </configuration>
+        <executions>
+            <execution>
+                <phase>compile</phase>
+                <goals>
+                    <goal>jar</goal>
+                </goals>
+            </execution>
+        </executions>
+</plugin>
+
+</plugins>
+</build>
+
+</project>
