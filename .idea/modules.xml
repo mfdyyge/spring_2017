@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/archetype-base/archetype-base.iml" filepath="$PROJECT_DIR$/archetype-base/archetype-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ptcore/ptcore.iml" filepath="$PROJECT_DIR$/ptcore/ptcore.iml" />
       <module fileurl="file://$PROJECT_DIR$/springcore/springCore.iml" filepath="$PROJECT_DIR$/springcore/springCore.iml" />
       <module fileurl="file://$PROJECT_DIR$/springmvc/springMvc.iml" filepath="$PROJECT_DIR$/springmvc/springMvc.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/spring_2017_demo.iml" filepath="$PROJECT_DIR$/.idea/spring_2017_demo.iml" />
